@@ -9,7 +9,7 @@ source_python("alpha_estimation.py")
 # PARAMETERS TO ADJUST
 ##########################################################
 alpha = 12
-beta = 4
+theta = 4
 n_min = 20
 n_max = 2000
 n_step = 20
@@ -24,17 +24,17 @@ end_integration_step = 1e-2 # In theory, the integration in gamma function is ca
 # already integrated area.
 #########################################################
 
-print(sprintf('Estimating Gamma Distribution parameters with alpha = %f, beta = %f for probes from %d to %d by %d', alpha, beta, n_min, n_max, n_step))
+print(sprintf('Estimating Gamma Distribution parameters with alpha = %f, theta = %f for probes from %d to %d by %d', alpha, theta, n_min, n_max, n_step))
 
 n_vec = seq(n_min, n_max, n_step) # sizes of a probe
 n_len = length(n_vec)
 est_alpha = numeric(n_len)
-est_beta = numeric(n_len)
+est_theta = numeric(n_len)
 
 idx = 1
 for (n in n_vec)
 {
-  probe = array(rgamma(n, shape = alpha, scale = beta))
+  probe = array(rgamma(n, shape = alpha, scale = theta))
   est_alpha[idx] = alpha_est_newton_raphson_method(probe,
                                                    alpha_start,
                                                    stop_threshold,
@@ -42,9 +42,9 @@ for (n in n_vec)
                                                    integration_step,
                                                    end_integration_step)
   moment_1 = mean(probe)
-  est_beta[idx] = moment_1 / est_alpha[idx]
+  est_theta[idx] = moment_1 / est_alpha[idx]
   print(sprintf('%d / %d', n, n_max))
-  print(sprintf('alpha = %f, beta = %f', est_alpha[idx], est_beta[idx]))
+  print(sprintf('alpha = %f, theta = %f', est_alpha[idx], est_theta[idx]))
   idx = idx + 1
 }
 
@@ -55,8 +55,8 @@ plot_theo_sim(n_vec,
               "number of samples",
               "alpha")
 plot_theo_sim(n_vec,
-              rep(beta, n_len),
-              est_beta,
-              "beta's estimation",
+              rep(theta, n_len),
+              est_theta,
+              "theta's estimation",
               "number of samples",
-              "beta")
+              "theta")
