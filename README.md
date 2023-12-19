@@ -13,3 +13,10 @@ Derivative $\Gamma\'(\hat{\alpha})$ is calculated using central difference metho
 
 The code is adjusted to Python3.8.
 
+To run test `estim_testing.R` (gamma distributions with $\alpha=12$ and $\theta=4$, sizes from 20 to 2000 by 20, you can change these parameters in this script) you need to have:
+- at least Python3.8,
+- numpy installed: `python3 -m pip install numpy`
+- R installed (I have version 4.1.2): https://gcore.com/learning/how-to-install-r-on-ubuntu/
+
+Then just simply type:
+`Rscript estim_testing.R`
